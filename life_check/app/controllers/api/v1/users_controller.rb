@@ -48,12 +48,12 @@
     private
 
       def sign_up_params
-        require_parameters([:email, :password,:name,:contact,:age,:weigth,:heigth])
+        require_parameters([:email, :password,:name,:contact,:age,:weight,:heigth])
         params.permit(:email, :password,:name,:contact,:age,:weight,:heigth)
       end
 
       def update_params
-        params.permit(:email,:name,:contact,:age,:weigth,:heigth)
+        params.permit(:email,:name,:contact,:age,:weight,:heigth)
       end
 
       def password_params
