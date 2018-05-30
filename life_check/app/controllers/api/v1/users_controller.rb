@@ -49,7 +49,7 @@
 
       def sign_up_params
         require_parameters([:email, :password,:name,:contact,:age,:weigth,:heigth])
-        params.permit(:email, :password)
+        params.permit(:email, :password,:name,:contact,:age,:weigth,:heigth)
       end
 
       def update_params
