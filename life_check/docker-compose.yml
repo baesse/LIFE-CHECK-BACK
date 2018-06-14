@@ -1,0 +1,16 @@
+checkbd:
+  image: mysql:5.6.34
+  ports:
+    - "8091:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=dev
+
+checkapi:
+  build: .
+  environment:
+    RAILS_ENV: development
+  ports:
+    - '8090:3000'
+  links:
+    - "checkbd"
