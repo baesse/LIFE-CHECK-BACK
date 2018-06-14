@@ -48,6 +48,6 @@ class Api::V1::PublicationsController < Api::V1::BaseController
 
     # Only allow a trusted parameter "white list" through.
     def publication_params
-      params.permit(:title, :description)
+      params.permit(:title, :description,:image)
     end
 end

@@ -1,0 +1,2 @@
+class Cupom < ApplicationRecord
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180529015525) do
+ActiveRecord::Schema.define(version: 20180614011622) do
 
   create_table "authentications", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "authable_type"
@@ -23,12 +23,41 @@ ActiveRecord::Schema.define(version: 20180529015525) do
     t.index ["authable_type", "authable_id"], name: "index_authentications_on_authable_type_and_authable_id"
   end
 
+  create_table "check_ativides", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "body"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "score"
+    t.integer "age_user"
+    t.string "title"
+    t.index ["user_id"], name: "index_check_ativides_on_user_id"
+  end
+
+  create_table "cupoms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.integer "score"
+    t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "cupom_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cupom_id"], name: "index_histories_on_cupom_id"
+    t.index ["user_id"], name: "index_histories_on_user_id"
+  end
+
   create_table "publications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.text "description"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
     t.index ["user_id"], name: "index_publications_on_user_id"
   end
 
@@ -52,8 +81,13 @@ ActiveRecord::Schema.define(version: 20180529015525) do
     t.integer "age"
     t.integer "weight"
     t.decimal "heigth", precision: 10
+    t.integer "score"
+    t.string "image"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "check_ativides", "users"
+  add_foreign_key "histories", "cupoms"
+  add_foreign_key "histories", "users"
 end

@@ -1,14 +1,21 @@
 Rails.application.routes.draw do
 
   
+  resources :histories
+  resources :cupoms
+  resources :check_ativides
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       resources :publications
+      resources :check_ativides
+      resources :cupoms
       # models auth
       resources :users, except: [:edit, :new, :index, :destroy], shallow: true do
         member do
           put :password
           put :register_device
+          post :checked_list
+          post :get_cupom
         end
         collection do
           namespace :auth do

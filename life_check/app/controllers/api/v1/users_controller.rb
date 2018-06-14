@@ -14,8 +14,19 @@
       render json:@user
     end
 
+    def get_cupom
+       if(params[:id_cupom].present?)
+        cupom=Cupom.find(params[:id_cupom])
+        if(current_user.score>=cupom.score)
+          Historie.create(user_id:current_user.id,cupom_id:cupom.id)
+          current_user.score-=cupom.score
+          current_user.save
+        end
+      end
+    end
+
     def update
-      authorize @user
+     
       @user.update!(update_params)
       render json: @user
     end
@@ -30,7 +41,14 @@
       authorize @user
       @user.update_with_password!(password_params)
     end
-
+    def checked_list
+      
+      if(params[:check_id].present?)
+        check=CheckAtivide.find(params[:check_id])
+        current_user.score+=check.score.to_i
+        current_user.save
+      end
+    end
     def reset_password
       params.require(:email)
       User.reset_password(params[:email])
@@ -49,11 +67,11 @@
 
       def sign_up_params
         require_parameters([:email, :password,:name,:contact,:age,:weight,:heigth])
-        params.permit(:email, :password,:name,:contact,:age,:weight,:heigth)
+        params.permit(:email, :password,:name,:contact,:age,:weight,:image,:heigth)
       end
 
       def update_params
-        params.permit(:email,:name,:contact,:age,:weight,:heigth)
+        params.permit(:email, :password,:name,:contact,:age,:weight,:image,:heigth)
       end
 
       def password_params
